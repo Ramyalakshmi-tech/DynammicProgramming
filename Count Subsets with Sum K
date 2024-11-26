@@ -1,0 +1,57 @@
+https://www.naukri.com/code360/problems/number-of-subsets_3952532?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos
+//Recursion
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        return Helper(num,tar,0);
+      
+    }
+
+    public static int Helper(int num[],int tar,int i){
+             if(tar==0){
+                return 1;
+            }
+             if(i>=num.length || tar<0){
+                return 0;
+            }
+
+            return Helper(num,tar-num[i],i+1) + Helper(num,tar,i+1);
+      }
+}
+
+//Memoization
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static int findWays(int num[], int tar) {
+        if (num == null || num.length == 0) {
+            return 0;
+        }
+        int n=num.length;
+        int[][] mem = new int[n][tar+1];
+        for(int i=0;i<n;i++){
+            Arrays.fill(mem[i],-1);
+        }
+        return Helper(num,tar,n-1,mem);
+      
+    }
+
+    public static int Helper(int num[],int tar,int n,int[][] mem){
+             if(tar==0){
+                return 1;
+            }
+             if(n<0 || tar<0){
+                return 0;
+            }
+            if(mem[n][tar]!=-1){
+                return mem[n][tar];
+            }
+            mem[n][tar]=Helper(num,tar-num[n],n-1,mem) + Helper(num,tar,n-1,mem);
+            return mem[n][tar];
+        }
+}
