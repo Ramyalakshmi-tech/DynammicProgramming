@@ -1,0 +1,49 @@
+https://www.naukri.com/code360/problems/ninja-and-his-friends_3125885?source=youtube&campaign=striver_dp_videos&utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_dp_videos&leftPanelTab=0
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+	public static int maximumChocolates(int r, int c, int[][] grid) {
+		// Write your code here.
+		int Alice=Helper(0,0,grid);
+		int Bob=Helper(0,c-1,grid);
+
+		return Alice+Bob;
+	}
+
+	public static int Helper(int r,int c,int[][] grid){
+
+		if(r>grid.length || r<0 || c>grid[0].length || c<0){
+			return Integer.MIN_VALUE;
+		}
+	
+
+		int down=Integer.MIN_VALUE;
+		int left = Integer.MIN_VALUE;
+		int right= Integer.MIN_VALUE;
+
+		if(r+1<grid.length){
+			//int temp=grid[r+1][c];
+			//grid[r+1][c]=0;
+			down = Helper(r+1,c,grid);
+			//grid[r+1][c]=temp;
+		}
+		if(r+1<grid.length && c-1>=0){
+		//	int temp1=grid[r+1][c-1];
+		//	grid[r+1][c-1]=0;
+			left = Helper(r+1,c-1,grid);
+		//	grid[r+1][c-1]=temp1;
+		}
+
+		if(r+1<grid.length && c+1<grid[0].length){
+			//int temp2=grid[r+1][c+1];
+			//grid[r+1][c+1]=0;
+			right = Helper(r+1,c+1,grid);
+			//grid[r+1][c+1]=temp2;
+		}
+		int ans=grid[r][c]+Math.max(down,Math.max(left,right));
+		grid[r][c]=0;
+		return ans;
+
+	}
+}
