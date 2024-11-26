@@ -1,0 +1,68 @@
+https://leetcode.com/problems/partition-equal-subset-sum/
+
+//Recursion
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+         int n=nums.length;
+          int k=0;
+       for(int i=0;i<n;i++){
+            k+=nums[i];
+        }
+        if(k%2!=0){
+            return false;
+        }
+        int res= Helper(k,nums,n,0,0);
+        return res>0;
+    }
+
+    public int Helper(int k,int[] nums,int n,int sum,int i){
+        if(sum==k/2){
+            return 1;
+           }
+         if(i>=nums.length || sum>k/2){
+            return 0;
+           }
+           int a=  Helper(k,nums,n,sum+nums[i],i+1);
+           int b= Helper(k,nums,n,sum,i+1);
+           return a+b;
+    }
+} 
+
+//Memoization
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+         int n=nums.length;
+          int k=0;
+          
+       for(int i=0;i<n;i++){
+            k+=nums[i];
+        }
+        if(k%2!=0){
+            return false;
+        }
+        int target=k/2;
+        int[][] mem = new int[n][target+1];
+
+        for(int i=0;i<n;i++){
+            Arrays.fill(mem[i],-1);
+        }
+        return Helper(k,nums,n-1,target,mem);
+     }
+
+    public boolean Helper(int k,int[] nums,int n,int target,int[][] mem){
+        if(target==0){
+            return true;
+        }
+         if(n<0 || target<0){
+            return false;
+           }
+
+           if(mem[n][target]!=-1){
+                return mem[n][target]==0?false:true;
+           }
+           mem[n][target]=Helper(k,nums,n-1,target-nums[n],mem) || Helper(k,nums,n-1,target,mem)==true?1:0;
+           return mem[n][target]==1?true:false;
+    }
+} 
