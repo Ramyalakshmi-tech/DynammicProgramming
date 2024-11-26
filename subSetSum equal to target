@@ -1,0 +1,63 @@
+https://www.naukri.com/code360/problems/subset-sum-equal-to-k_1550954?leftPanelTab=0&leftPanelTabValue=PROBLEM
+
+//Recursion
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+       
+         return subSetSumRecur(n-1,k,arr);
+           }
+     
+    public static boolean subSetSumRecur(int n,int k,int[] arr){
+       
+        if(k==0){
+            return true;
+        }
+
+        if(k<0 || n<0){
+            return false;
+        }
+  return  (subSetSumRecur(n-1,k-arr[n],arr) || subSetSumRecur(n-1,k,arr));
+      }
+}
+
+//Memoization
+
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        int[][] memo = new int[n][k+1];
+        for(int i=0;i<memo.length;i++){
+            Arrays.fill(memo[i],-1);
+        }
+        return subSetSumMemo(n-1, k, arr,memo);
+      // return subSetSumRecur(n-1,k,arr);
+    }
+      public static boolean subSetSumMemo(int n,int k,int[] arr,int[][] memo){
+         if(k==0)  return true;
+
+        if(k<0 || n<0)  return false;
+        
+        if(memo[n][k]!=-1) return memo[n][k]==0?false:true;
+
+          memo[n][k]= (subSetSumMemo(n-1,k-arr[n],arr,memo) || subSetSumMemo(n-1,k,arr,memo))==true?1:0;
+         return memo[n][k]==0?false:true;
+     } 
+    public static boolean subSetSumRecur(int n,int k,int[] arr){
+       
+        if(k==0){
+            return true;
+        }
+
+        if(k<0 || n<0){
+            return false;
+        }
+
+         return  (subSetSumRecur(n-1,k-arr[n],arr) || subSetSumRecur(n-1,k,arr));
+     }
+}
