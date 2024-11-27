@@ -1,0 +1,62 @@
+https://leetcode.com/problems/assign-cookies/description/
+
+//Recursion - working correctly
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+       
+        int res=Helper(g,s,0,0);
+        return res;
+    }
+
+    public int Helper(int[] c,int[] s,int i,int j){
+        if(i==c.length || j==s.length ){
+            return 0;
+        }
+       int a=0;
+       int b=0;
+        if(c[i]<=s[j]){
+             a=1+Helper(c,s,i+1,j+1);
+        }
+
+        else{
+            b= Helper(c,s,i,j+1);
+        }
+        return a+b;
+    }
+}
+
+//Memoization - but it is giving TLE since the calls are not redudant
+
+class Solution {
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int n=g.length;
+        int m=s.length;
+       int[][] memo= new int[n][m+1];
+       for(int i=0;i<n;i++)     Arrays.fill(memo[i],-1);
+        int res=Helper(g,s,n-1,m-1,memo);
+        return res;
+    }
+
+    public int Helper(int[] c,int[] s,int n,int m,int[][] mem){
+        if(n<0 || m<0 ){
+            return 0;
+        }
+        if(mem[n][m]!=-1){
+            return mem[n][m];
+        }
+       int a=0;
+       int b=0;
+        if(c[n]<=s[m]){
+             a=1+Helper(c,s,n-1,m-1,mem);
+        }
+
+        else{
+            b= Helper(c,s,n-1,m,mem);
+        }
+        return mem[n][m]=a+b;
+    }
+}
