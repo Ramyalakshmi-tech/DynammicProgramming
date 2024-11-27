@@ -1,0 +1,50 @@
+https://leetcode.com/problems/coin-change/
+
+//Recursion
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n=coins.length;
+       int res=  Helper(coins,amount,n-1);
+       return res==Integer.MAX_VALUE?-1:res;
+    }
+
+    public int Helper(int[] coins,int k,int n){
+       
+            if(k==0)  return 0;
+          
+             if(k<0 || n<0){
+                return Integer.MAX_VALUE;
+             }
+           
+        int  a=Helper(coins,k-coins[n],n);
+        if(a!=Integer.MAX_VALUE){
+            a+=1;
+        }
+        int b= Helper(coins,k,n-1);
+        return Math.min(a,b);
+    }
+}
+//Memoization
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int n=coins.length;
+        int[][] mem=new int[n][amount+1];
+        for(int i=0;i<n;i++) Arrays.fill(mem[i],-1);
+       int res=  Helper(coins,amount,n-1,mem);
+       return res==Integer.MAX_VALUE?-1:res;
+    }
+
+    public int Helper(int[] coins,int k,int n,int[][] mem){
+         if(k==0)  return 0;
+         if(k<0 || n<0) return Integer.MAX_VALUE;
+         if(mem[n][k]!=-1) return mem[n][k];  
+           
+        int  a=Helper(coins,k-coins[n],n,mem);
+        if(a!=Integer.MAX_VALUE){
+            a+=1;
+        }
+        int b= Helper(coins,k,n-1,mem);
+        return mem[n][k]= Math.min(a,b);
+    }
+}
