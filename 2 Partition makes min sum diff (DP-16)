@@ -1,0 +1,25 @@
+https://leetcode.com/problems/partition-array-into-two-arrays-to-minimize-sum-difference/description/
+
+//Recursion 
+
+class Solution {
+    public int minimumDifference(int[] nums) {
+        int n=nums.length;
+        int total=0;
+        for(int i=0;i<n;i++){
+            total+=nums[i];
+        }
+      return  minSumRecur(nums,total,total,n-1,n/2,0);
+    }
+    public int minSumRecur(int[] nums,int total,int k,int n,int size,int i){
+          if(i==size){
+            System.out.println("total "+total);
+            return Math.abs((k-total)-total);
+            }
+        if(n<0) return Integer.MAX_VALUE;
+       int a=minSumRecur(nums,total-nums[n],k,n-1,size,i+1);
+        int b=minSumRecur(nums,total,k,n-1,size,i);
+
+        return Math.min(a,b);
+    }
+}
