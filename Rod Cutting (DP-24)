@@ -1,0 +1,21 @@
+https://www.naukri.com/code360/problems/rod-cutting-problem_800284?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf&leftPanelTabValue=PROBLEM
+//Recursion
+public class Solution {
+	public static int cutRod(int price[], int n) {
+		int res=cutRodRecur(price,n,0,0,0);
+		return res;
+	}
+  public static int cutRodRecur(int[] price,int n,int proSum,int sum,int i){
+		if(sum==n){
+			return proSum;
+		}
+
+		if(sum>=n || i>=n){
+			return 0;
+		}
+	
+		int a=cutRodRecur(price,n,proSum+price[i],sum+i+1,i);
+		int b=cutRodRecur(price,n,proSum,sum,i+1);
+    		return Math.max(a,b);
+}
+}
