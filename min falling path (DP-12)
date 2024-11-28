@@ -1,0 +1,36 @@
+https://leetcode.com/problems/minimum-falling-path-sum/
+//Memoization
+class Solution {
+    public int minFallingPathSum(int[][] matrix) {
+        int m=matrix.length;
+        int n=matrix[0].length;
+        int res=Integer.MAX_VALUE;
+        int[][] mem=new int[m][n];
+        for(int i=0;i<m;i++){
+            Arrays.fill(mem[i],-1);
+        }
+        for(int col=0;col<n;col++)
+         res=Math.min(res,minFallingpathRecur(matrix,m,n,0,col,mem));
+        return res;
+    }
+
+    public int minFallingpathRecur(int[][] matrix,int m,int n,int i,int j,int[][] mem){
+          if( j>=n || j<0){
+            return Integer.MAX_VALUE;
+        }
+
+        if(i==m-1 ){
+            return matrix[i][j];
+        }
+        if(mem[i][j]!=-1){
+           return mem[i][j];
+        }
+        
+        int down=minFallingpathRecur(matrix,m,n,i+1,j,mem);
+        int left=minFallingpathRecur(matrix,m,n,i+1,j-1,mem);
+        int right=minFallingpathRecur(matrix,m,n,i+1,j+1,mem);
+
+       mem[i][j]=matrix[i][j]+Math.min(down,Math.min(left,right));
+        return mem[i][j];
+    }
+}
