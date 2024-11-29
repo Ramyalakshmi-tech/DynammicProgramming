@@ -25,3 +25,21 @@ class Solution {
 
     }
 }
+//optimised version
+class Solution {
+   
+    public int maxProfit(int[] prices) {
+                return maxProfitRecur(prices,0,Integer.MAX_VALUE,0);
+        }
+
+    public int maxProfitRecur(int[] prices,int i,int minBuy,int maxProfit){
+            if(i==prices.length){
+                return maxProfit;
+            }
+
+             minBuy=Math.min(minBuy,prices[i]);
+            maxProfit=Math.max(maxProfit,prices[i]-minBuy);
+
+            return maxProfitRecur(prices,i+1,minBuy,maxProfit);
+    }
+}
