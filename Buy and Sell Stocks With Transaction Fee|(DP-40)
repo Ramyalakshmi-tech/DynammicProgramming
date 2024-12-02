@@ -1,0 +1,29 @@
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/description/
+//Recursion
+class Solution {
+    public int maxProfit(int[] prices, int fee) {
+         return Helper(prices, 0, false,fee); // Start recursion from day 0 without holdin   any stock
+    }
+
+    public int Helper(int[] prices, int day, boolean hasStock,int fee) {
+        // Base case: If we reach the end of the array
+        if (day == prices.length) {
+            return 0;
+        }
+
+        int profit = 0;
+        if (hasStock) { 
+            // Case 1: Sell the stock or skip
+            int sell = prices[day] + Helper(prices, day + 1, false,fee); // Sell stock
+            int skip = Helper(prices, day + 1, true,fee);               // Skip selling
+            profit = Math.max(sell, skip);
+        } else {
+            // Case 2: Buy the stock or skip
+            int buy = -prices[day]-fee + Helper(prices, day + 1, true,fee); // Buy stock
+            int skip = Helper(prices, day + 1, false,fee);             // Skip buying
+            profit = Math.max(buy, skip);
+        }
+
+        return profit;
+    }
+}
