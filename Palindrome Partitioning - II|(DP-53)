@@ -41,3 +41,40 @@ class Solution {
         return true;
     }
 }
+
+//Recursion-2
+
+class Solution {
+    public int minCut(String s) {
+        List<String> list=new ArrayList<>();
+        return Helper(s,"",0,list,Integer.MAX_VALUE);
+     }
+    public int Helper(String s,String str,int i,List<String> list,int res){
+        if(i==s.length()){
+            res=Math.min(res,list.size()-1);
+            return res;
+         }
+        for(int j=i;j<s.length();j++){
+        String subString=s.substring(i,j+1);
+        if(isPalindrome(subString)){
+            list.add(subString);
+        res=Helper(s,str+s.charAt(j),j+1,list,res);
+        list.remove(list.size()-1);
+        }
+  }
+         return res;
+    }
+
+    public boolean isPalindrome(String str){
+        int left=0;
+        int right=str.length()-1;
+        while(left<right){
+            if(str.charAt(left)!=str.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
