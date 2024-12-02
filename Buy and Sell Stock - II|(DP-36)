@@ -1,0 +1,22 @@
+https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
+
+//Recursion
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length<=1){
+            return 0;
+        }
+            return maxProfitRecur(prices,0,1,0);
+    }
+
+    public int maxProfitRecur(int[] prices,int i,int j,int maxProfit){
+        if(j>=prices.length || i>=prices.length)
+            return maxProfit;
+
+        if(prices[j]>prices[i])
+          maxProfit+= prices[j]-prices[i];
+ 
+        
+        return maxProfitRecur(prices,i+1,j+1,maxProfit);
+    }
+}
