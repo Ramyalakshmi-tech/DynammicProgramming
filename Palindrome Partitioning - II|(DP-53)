@@ -1,0 +1,43 @@
+https://leetcode.com/problems/palindrome-partitioning-ii/description/
+
+//Recursion
+class Solution {
+    public int minCut(String s) {
+        List<String> list=new ArrayList<>();
+       List<List<String>> res = new ArrayList<>();
+        Helper(s,"",0,list,res);
+        int minCut=Integer.MAX_VALUE;
+        for(List<String> list2:res){
+            System.out.println(list2);
+            minCut=Math.min(minCut,list2.size()-1);
+      }
+        return minCut;
+    }
+    public void Helper(String s,String str,int i,List<String> list,List<List<String>> res){
+        if(i==s.length()){
+          res.add(new ArrayList<>(list));
+            return;
+        }
+        for(int j=i;j<s.length();j++){
+        String subString=s.substring(i,j+1);
+        if(isPalindrome(subString)){
+            list.add(subString);
+        Helper(s,str+s.charAt(j),j+1,list,res);
+        list.remove(list.size()-1);
+        }
+        }
+    }
+
+    public boolean isPalindrome(String str){
+        int left=0;
+        int right=str.length()-1;
+        while(left<right){
+            if(str.charAt(left)!=str.charAt(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
