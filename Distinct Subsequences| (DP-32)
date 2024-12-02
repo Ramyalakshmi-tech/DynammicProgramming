@@ -1,0 +1,21 @@
+https://leetcode.com/problems/distinct-subsequences/description/
+//Recursion
+class Solution {
+    public int numDistinct(String s, String t) {
+        return numDistinctRecur(s,t,0,"");
+    }
+
+    public int numDistinctRecur(String s,String t,int i,String str){
+        if(str.equals(t)){
+            return 1;
+        }
+        if(i>=s.length() || str.length()>t.length()){
+            return 0;
+        }
+
+        int take=numDistinctRecur(s,t,i+1,str+s.charAt(i));
+        int skip=numDistinctRecur(s,t,i+1,str);
+
+        return take+skip;
+    }
+}
