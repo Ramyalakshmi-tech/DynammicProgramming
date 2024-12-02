@@ -1,0 +1,33 @@
+https://leetcode.com/problems/number-of-longest-increasing-subsequence/description/
+
+//Recursion 
+
+class Solution {
+    public int findNumberOfLIS(int[] nums) {
+        List<Integer> list=new ArrayList<>();
+        ArrayList<ArrayList<Integer>> res=new ArrayList<>();
+             Helper(nums,0,list,res);
+             return res.size();
+    }
+
+    public void Helper(int[] nums,int i,List<Integer> list,ArrayList<ArrayList<Integer>> res){
+        if(i==nums.length){
+           if(res.isEmpty() || res.get(0).size()<list.size()){
+                res.clear();
+                res.add(new ArrayList<>(list));
+            }
+           else if( res.get(0).size()==list.size()){
+                res.add(new ArrayList<>(list));
+            }
+            return;
+        }
+        
+        if(list.isEmpty() || list.get(list.size()-1)<nums[i]) {
+                list.add(nums[i]);
+             Helper(nums,i+1,list,res);
+             list.remove(list.size()-1);
+        }
+       Helper(nums,i+1,list,res);
+        return ;
+    }
+}
