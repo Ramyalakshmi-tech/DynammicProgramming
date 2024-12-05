@@ -1,0 +1,46 @@
+https://www.geeksforgeeks.org/problems/print-all-lcs-sequences3413/1
+
+//Recursion
+class Solution {
+    public List<String> all_longest_common_subsequences(String s, String t) {
+        // Code here
+          List<String> list=new ArrayList<>();
+       Helper1(s,0,list,"");
+       List<String> res=new ArrayList<>();
+       Helper2(t,list,0,"",res);
+       Collections.sort(res);
+       return res;
+    }
+
+    public void Helper1(String text,int i,List<String> list,String str){
+        if(i==text.length()){
+            list.add(str);
+            return;
+        }
+
+        Helper1(text,i+1,list,str+text.charAt(i));
+        Helper1(text,i+1,list,str);
+
+        return;
+    }
+
+    public void Helper2(String text,List<String> list,int i,String str,List<String> res){
+        if(i==text.length()){
+            if(list.contains(str)){
+                if(!res.isEmpty() && str.length()>res.get(0).length())
+                    res.clear();
+                if(!res.contains(str) && (res.isEmpty() || str.length()==res.get(0).length()))
+                    res.add(str);
+            }
+            return;
+        }
+
+        if(i>text.length()){
+            return ;
+        }
+
+        Helper2(text,list,i+1,str+text.charAt(i),res);
+        Helper2(text,list,i+1,str,res);
+
+        }
+}
