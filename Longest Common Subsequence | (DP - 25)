@@ -1,0 +1,46 @@
+https://leetcode.com/problems/longest-common-subsequence/
+
+//Recursion 
+
+class Solution {
+    public int longestCommonSubsequence(String text1, String text2) {
+      
+        List<String> list=new ArrayList<>();
+       Helper1(text1,0,list,"");
+       int res=Helper2(text2,list,0,"");
+       return res;
+    }
+
+    public void Helper1(String text,int i,List<String> list,String str){
+        if(i==text.length()){
+            list.add(str);
+            return;
+        }
+
+        Helper1(text,i+1,list,str+text.charAt(i));
+        Helper1(text,i+1,list,str);
+
+        return;
+    }
+
+    public int Helper2(String text,List<String> list,int i,String str){
+        if(i==text.length()){
+            if(list.contains(str)){
+                return str.length();
+            }
+            return 0;
+        }
+
+        if(i>text.length()){
+            return 0;
+        }
+
+        int a=Helper2(text,list,i+1,str+text.charAt(i));
+        int b=Helper2(text,list,i+1,str);
+
+        return Math.max(a,b);
+    }
+}
+
+//Optimised Recursion
+
