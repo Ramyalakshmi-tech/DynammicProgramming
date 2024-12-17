@@ -61,3 +61,90 @@ public class Solution {
          return  (subSetSumRecur(n-1,k-arr[n],arr) || subSetSumRecur(n-1,k,arr));
      }
 }
+
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+
+    public static boolean subsetSumToK(int n, int k, int arr[]){
+        int[][] memo = new int[n][k+1];
+        for(int i=0;i<memo.length;i++){
+            Arrays.fill(memo[i],-1);
+        }
+        return subSetSumTabSpaceOpt( k, arr);
+      //  return subSetSumMemoIdx(n, k, arr,memo);
+       // return subSetSumMemo2(n-1, k, arr,memo);
+      // return subSetSumRecur(n-1,k,arr);
+    }
+      public static boolean subSetSumTabSpaceOpt(int k,int[] arr){
+          int n=arr.length;
+        boolean[] curr = new boolean[k+1];
+        boolean[] prev=new boolean[k+1];
+        prev[0]=true;
+        curr[0]=true;
+      
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=k;j++){
+                if(j-arr[i-1]<0) curr[j]=prev[j];
+                else
+                curr[j]= (prev[j-arr[i-1]] || prev[j]);
+            }
+          //  System.arraycopy(curr, 0, prev, 0, k + 1);
+          prev=Arrays.copyOf(curr,curr.length);
+        }
+        return prev[k];
+     } 
+      public static boolean subSetSumTab(int k,int[] arr){
+          int n=arr.length;
+        boolean[][] tab = new boolean[n+1][k+1];
+      
+      //   if(k==0)  return true;
+        for(int i=0;i<=n;i++){
+            tab[i][0]=true;
+        }
+        if(k<0 || n==0)  return false;
+        for(int i=1;i<=k;i++){
+            tab[0][i]=false;
+        }
+        for(int i=1;i<=n;i++){
+            for(int j=1;j<=k;j++){
+                if(j-arr[i-1]<0) tab[i][j]=tab[i-1][j];
+                else
+                tab[i][j]= (tab[i-1][j-arr[i-1]] || tab[i-1][j]);
+            }
+        }
+        //if(memo[n][k]!=-1) return memo[n][k]==0?false:true;
+
+        //  memo[n][k]= (subSetSumMemoIdx(n-1,k-arr[n-1],arr,memo) || subSetSumMemoIdx(n-1,k,arr,memo))==true?1:0;
+        // return memo[n][k]==0?false:true;
+        return tab[n][k];
+     } 
+      public static boolean subSetSumMemoIdx(int n,int k,int[] arr,int[][] memo){
+         if(k==0)  return true;
+
+        if(k<0 || n==0)  return false;
+        
+        if(memo[n][k]!=-1) return memo[n][k]==0?false:true;
+
+          memo[n][k]= (subSetSumMemoIdx(n-1,k-arr[n-1],arr,memo) || subSetSumMemoIdx(n-1,k,arr,memo))==true?1:0;
+         return memo[n][k]==0?false:true;
+     } 
+     public static boolean subSetSumMemo2(int n,int k,int[] arr,int[][] memo){
+         if(k==0)  return true;
+        if(k<0) return false;
+        if(n==0)
+        { 
+           return k==arr[0];
+        }
+        
+        if(memo[n][k]!=-1) return memo[n][k]==0?false:true;
+
+          memo[n][k]= (subSetSumMemo2(n-1,k-arr[n],arr,memo) || subSetSumMemo2(n-1,k,arr,memo))==true?1:0;
+         return memo[n][k]==0?false:true;
+     } 
+ 
+  
+}
+
+
